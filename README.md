@@ -130,7 +130,7 @@ func main() {
 
 [![GoDoc](https://godoc.org/github.com/chekist32/go-monero/wallet?status.svg)](https://godoc.org/github.com/chekist32/go-monero/daemon)
 
-Here is a [List of implemented methods.](https://github.com/chekist32/go-monero/issues/3)
+Here is a [List of implemented methods.](https://github.com/chekist32/go-monero/issues/5)
 
 **Go code:**
 ```Go
