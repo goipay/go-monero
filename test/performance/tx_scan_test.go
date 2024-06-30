@@ -1,12 +1,13 @@
 package test
 
 import (
-	"chekist32/go-monero/daemon"
-	"chekist32/go-monero/utils"
 	"encoding/json"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/chekist32/go-monero/daemon"
+	"github.com/chekist32/go-monero/utils"
 )
 
 func addresses(addrs []string) ([]utils.MoneroAddress, error) {

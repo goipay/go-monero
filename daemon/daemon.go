@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"chekist32/go-monero/utils"
+	"github.com/chekist32/go-monero/utils"
 
 	"github.com/icholy/digest"
 )

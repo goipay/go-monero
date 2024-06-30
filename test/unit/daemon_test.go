@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"testing"
 
-	"chekist32/go-monero/daemon"
+	"github.com/chekist32/go-monero/daemon"
 
 	"github.com/stretchr/testify/assert"
 )

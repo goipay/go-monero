@@ -10,7 +10,7 @@ This package is inspired by https://github.com/omani/go-monero-rpc-client.
 
 ## Wallet RPC Client
 
-[![GoDoc](https://godoc.org/chekist32/go-monero/wallet?status.svg)](https://godoc.org/chekist32/go-monero/wallet)
+[![GoDoc](https://godoc.org/github.com/chekist32/go-monero/wallet?status.svg)](https://godoc.org/github.com/chekist32/go-monero/wallet)
 
 ### Monero RPC Version
 The ```go-monero/wallet``` package is the RPC client for version `v1.3` of the [Monero Wallet RPC](https://www.getmonero.org/resources/developer-guides/wallet-rpc.html).
@@ -18,7 +18,7 @@ The ```go-monero/wallet``` package is the RPC client for version `v1.3` of the [
 ### Installation
 
 ```sh
-go get -u chekist32/go-monero
+go get -u github.com/chekist32/go-monero
 ```
 
 #### Spawn the monero-wallet-rpc daemon (without rpc login):
@@ -38,7 +38,7 @@ import (
   "fmt"
   "log"
 
-  "chekist32/go-monero/wallet"
+  "github.com/chekist32/go-monero/wallet"
 )
 
 func checkerr(err error) {
@@ -88,7 +88,7 @@ import (
   "fmt"
   "log"
 
-  "chekist32/go-monero/wallet"
+  "github.com/chekist32/go-monero/wallet"
 )
 
 func checkerr(err error) {
@@ -128,16 +128,16 @@ func main() {
 
 ## Daemon RPC Client
 
-[![GoDoc](https://godoc.org/chekist32/go-monero/wallet?status.svg)](https://godoc.org/chekist32/go-monero/daemon)
+[![GoDoc](https://godoc.org/github.com/chekist32/go-monero/wallet?status.svg)](https://godoc.org/github.com/chekist32/go-monero/daemon)
 
-Here is a [List of implemented methods.](https://chekist32/go-monero/issues/3)
+Here is a [List of implemented methods.](https://github.com/chekist32/go-monero/issues/3)
 
 **Go code:**
 ```Go
 package main
 
 import (
-	"chekist32/go-monero/daemon"
+	"github.com/chekist32/go-monero/daemon"
 	"fmt"
 	"log"
 	"net/url"
@@ -162,7 +162,7 @@ func main() {
 
 ## Monero Utils
 
-[![GoDoc](https://godoc.org/chekist32/go-monero/wallet?status.svg)](https://godoc.org/chekist32/go-monero/utils)
+[![GoDoc](https://godoc.org/github.com/chekist32/go-monero/wallet?status.svg)](https://godoc.org/github.com/chekist32/go-monero/utils)
 
 This package contains helper methods that can be used for different cases, such as subaddress generation and tx output decryption.
 
@@ -171,7 +171,7 @@ This package contains helper methods that can be used for different cases, such 
 package main
 
 import (
-	"chekist32/go-monero/utils"
+	"github.com/chekist32/go-monero/utils"
 	"fmt"
 	"log"
 )
