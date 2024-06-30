@@ -1,7 +1,6 @@
 package test
 
 import (
-	"chekist32/go-monero/daemon"
 	"context"
 	"errors"
 	"net/url"
@@ -9,6 +8,8 @@ import (
 	"strings"
 	"sync"
 	"testing"
+
+	"github.com/chekist32/go-monero/daemon"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/testcontainers/testcontainers-go"

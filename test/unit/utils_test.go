@@ -1,9 +1,10 @@
 package test
 
 import (
-	"chekist32/go-monero/utils"
 	"encoding/hex"
 	"testing"
+
+	"github.com/chekist32/go-monero/utils"
 
 	"github.com/stretchr/testify/assert"
 )

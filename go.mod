@@ -1,4 +1,4 @@
-module chekist32/go-monero
+module github.com/chekist32/go-monero
 
 go 1.20
 
