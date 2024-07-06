@@ -59,3 +59,29 @@ func NewPublicKey(keyStr string) (*PublicKey, error) {
 
 	return newPublicKeyHelper(keyBytes)
 }
+
+type KeyPair struct {
+	priv *PrivateKey
+	pub  *PublicKey
+}
+
+func (k *KeyPair) PrivateKey() *PrivateKey {
+	return k.priv
+}
+
+func (k *KeyPair) PublicKey() *PublicKey {
+	return k.pub
+}
+
+func NewKeyPair(priv *PrivateKey) *KeyPair {
+	return &KeyPair{priv: priv, pub: GetPublicKeyFromPrivate(priv)}
+}
+
+type ViewOnlyKeyPair struct {
+	view  *KeyPair
+	spend *PublicKey
+}
+
+func NewViewOnlyKeyPair(view *PrivateKey, spend *PublicKey) *ViewOnlyKeyPair {
+	return &ViewOnlyKeyPair{view: NewKeyPair(view), spend: spend}
+}
