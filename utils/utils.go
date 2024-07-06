@@ -39,7 +39,7 @@ var (
 /********************************************** Cryptography Related Mehtods ***************************************************/
 
 // Derives the public key from the private (either view or spend)
-func GetPublicKeyFromPrivate(privKey *PrivateKey) (*PublicKey, error) {
+func GetPublicKeyFromPrivate(privKey *PrivateKey) *PublicKey {
 	/** Public Key - Point
 		A = a * G
 
@@ -48,7 +48,7 @@ func GetPublicKeyFromPrivate(privKey *PrivateKey) (*PublicKey, error) {
 	**/
 	pubKey := &PublicKey{key: new(edwards25519.Point).ScalarBaseMult(privKey.key)}
 
-	return pubKey, nil
+	return pubKey
 }
 
 /********************************************** Tx Related Mehtods ***************************************************/
