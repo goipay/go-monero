@@ -11,13 +11,16 @@ import (
 
 func TestGetPublicKeyFromPrivate(t *testing.T) {
 	privKey, err := utils.NewPrivateKey("ac413c16b815899b69393d72086fa86d31e8e352895606180c4c8fadd707450a")
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	pub, err := utils.GetPublicKeyFromPrivate(privKey)
-	assert.NoError(t, err)
+	pub := utils.GetPublicKeyFromPrivate(privKey)
 
 	expected, err := utils.NewPublicKey("0ef3c9e1146ed2a05f0eb4b25e41662bed41fa246251257c363a8ba95750cb8b")
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	assert.Equal(t, expected.Bytes(), pub.Bytes())
 }
