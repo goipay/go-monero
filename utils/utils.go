@@ -39,7 +39,7 @@ var (
 /********************************************** Cryptography Related Mehtods ***************************************************/
 
 // Derives the public key from the private (either view or spend)
-func GetPublicKeyFromPrivate(privKey *PrivateKey) (*PublicKey, error) {
+func GetPublicKeyFromPrivate(privKey *PrivateKey) *PublicKey {
 	/** Public Key - Point
 		A = a * G
 
@@ -48,7 +48,22 @@ func GetPublicKeyFromPrivate(privKey *PrivateKey) (*PublicKey, error) {
 	**/
 	pubKey := &PublicKey{key: new(edwards25519.Point).ScalarBaseMult(privKey.key)}
 
-	return pubKey, nil
+	return pubKey
+}
+
+// Derives the Private View Key from the Private Spend Key
+func GetPrivateViewKeyFromPrivateSpendKey(spend *PrivateKey) (*PrivateKey, error) {
+	data, err := Keccak256Hash(spend.Bytes())
+	if err != nil {
+		return nil, err
+	}
+
+	sc, err := keccak256HashToScalar(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PrivateKey{key: sc}, nil
 }
 
 /********************************************** Tx Related Mehtods ***************************************************/
@@ -314,7 +329,7 @@ func EncodeMoneroAddress(addr []byte) ([]byte, error) {
 	return encodeMoneroAddressBase58Helper(addr), nil
 }
 
-// Generates a Monero subaddress base on the primary private view and public spend keys, NetworkType, major and minor indicies
+// Generates a Monero subaddress base on the primary private view and public spend keys, NetworkType, major and minor indices
 func GenerateSubaddress(viewKey *PrivateKey, spendKey *PublicKey, major, minor uint32, nt NetworkType) (*SubAddress, error) {
 	index := append(uint32ToLittleEndianBytes(major), uint32ToLittleEndianBytes(minor)...)
 
@@ -425,6 +440,36 @@ func ParseResponse[R any](body io.Reader) (*R, error) {
 	}
 
 	return parseJson[R](data)
+}
+
+/********************************************** Hash Related Mehtods ***************************************************/
+
+// Returns a hash calculated by the Keccak256 hash algorithm
+func Keccak256Hash(data []byte) ([]byte, error) {
+	hash := sha3.NewLegacyKeccak256()
+
+	_, err := hash.Write(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return hash.Sum(nil), nil
+}
+
+func keccak256HashToScalar(hash []byte) (*edwards25519.Scalar, error) {
+	if len(hash) != 32 {
+		return nil, errors.New("invalid Keccak256Hash")
+	}
+
+	u := make([]byte, 64)
+	copyToSlice(hash, u, 0)
+
+	res, err := new(edwards25519.Scalar).SetUniformBytes(u)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 /********************************************** Other Mehtods ***************************************************/
@@ -548,34 +593,6 @@ func GetPrefix(nt NetworkType, at AddressType) (byte, error) {
 	}
 }
 
-// Returns a hash calculated by the Keccak256 hash algorithm
-func Keccak256Hash(data []byte) ([]byte, error) {
-	hash := sha3.NewLegacyKeccak256()
-
-	_, err := hash.Write(data)
-	if err != nil {
-		return nil, err
-	}
-
-	return hash.Sum(nil), nil
-}
-
-func keccak256HashToScalar(hash []byte) (*edwards25519.Scalar, error) {
-	if len(hash) != 32 {
-		return nil, errors.New("invalid Keccak256Hash")
-	}
-
-	u := make([]byte, 64)
-	copyToSlice(hash, u, 0)
-
-	res, err := new(edwards25519.Scalar).SetUniformBytes(u)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, nil
-}
-
 func copyToSlice[T any](src, dst []T, from int) {
 	dstSize := len(dst)
 	srcSize := len(src)
@@ -630,4 +647,16 @@ func xor(a, b []byte) []byte {
 	}
 
 	return r
+}
+
+func mod(a, m int) int {
+	if a < 0 {
+		a = -a
+		if a < m {
+			return m - a
+		}
+		return a % m
+	}
+
+	return a % m
 }
