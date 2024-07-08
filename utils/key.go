@@ -82,6 +82,44 @@ type ViewOnlyKeyPair struct {
 	spend *PublicKey
 }
 
+func (p *ViewOnlyKeyPair) ViewKeyPair() *KeyPair {
+	return p.view
+}
+
+func (p *ViewOnlyKeyPair) SpendPublicKey() *PublicKey {
+	return p.spend
+}
+
 func NewViewOnlyKeyPair(view *PrivateKey, spend *PublicKey) *ViewOnlyKeyPair {
 	return &ViewOnlyKeyPair{view: NewKeyPair(view), spend: spend}
+}
+
+type FullKeyPair struct {
+	view  *KeyPair
+	spend *KeyPair
+}
+
+func (p *FullKeyPair) ViewKeyPair() *KeyPair {
+	return p.view
+}
+
+func (p *FullKeyPair) SpendKeyPair() *KeyPair {
+	return p.spend
+}
+
+func (p *FullKeyPair) ViewOnlyKeyPair() *ViewOnlyKeyPair {
+	return &ViewOnlyKeyPair{view: p.view, spend: p.spend.pub}
+}
+
+func NewFullKeyPair(view *PrivateKey, spend *PrivateKey) *FullKeyPair {
+	return &FullKeyPair{view: NewKeyPair(view), spend: NewKeyPair(spend)}
+}
+
+func NewFullKeyPairSpendPrivateKey(spend *PrivateKey) (*FullKeyPair, error) {
+	view, err := GetPrivateViewKeyFromPrivateSpendKey(spend)
+	if err != nil {
+		return nil, err
+	}
+
+	return &FullKeyPair{view: NewKeyPair(view), spend: NewKeyPair(spend)}, nil
 }

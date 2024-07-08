@@ -222,3 +222,11 @@ func TestGenerateSubaddress(t *testing.T) {
 	}
 
 }
+
+func TestPaymentID(t *testing.T) {
+	PaymentID256 := utils.NewPaymentID256()
+	PaymentID64 := utils.NewPaymentID64()
+
+	assert.Equal(t, len(PaymentID256), 32)
+	assert.Equal(t, len(PaymentID64), 8)
+}
