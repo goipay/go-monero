@@ -225,7 +225,7 @@ type TaggedKey struct {
 }
 type Target struct {
 	TaggedKey TaggedKey `json:"tagged_key"`
-	Key       string    `json:"key"` //
+	Key       string    `json:"key"`
 }
 type Vout1 struct {
 	Amount uint64 `json:"amount"`
