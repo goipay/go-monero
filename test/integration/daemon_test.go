@@ -276,10 +276,10 @@ func TestDigestAuth(t *testing.T) {
 		Started:          true,
 		Logger:           testcontainers.Logger,
 	})
-	defer monerodC.Terminate(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}
+	defer monerodC.Terminate(ctx)
 
 	u, err := monerodC.PortEndpoint(ctx, "18081/tcp", "http")
 	if err != nil {
