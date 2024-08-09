@@ -3,7 +3,7 @@ package test
 import (
 	"context"
 	"fmt"
-	"math/rand/v2"
+	"math/rand"
 	"os"
 	"testing"
 
