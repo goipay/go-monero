@@ -55,6 +55,7 @@ func TestGenerateMoneroSubaddress(t *testing.T) {
 	if err := w.OpenWallet(&wallet.RequestOpenWallet{Filename: "test"}); err != nil {
 		t.Fatal(err)
 	}
+	defer w.CloseWallet()
 
 	for i := 0; i < 20; i++ {
 		t.Run(fmt.Sprintf("Test Generate Monero Subaddress #%v", i), func(t *testing.T) {
