@@ -256,7 +256,11 @@ func decodeMoneroAddressBase58Helper(addr string) []byte {
 		start = end
 		end = start + BASE58_ENCODED_BLOCK_SIZE
 	}
-	copyToSlice(base58.Decode(addr[start:]), res, BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE)
+	dec := base58.Decode(addr[start:])
+	if len(dec) > size-BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE {
+		dec = dec[len(dec)-(size-BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE):]
+	}
+	copyToSlice(dec, res, BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE)
 
 	return res
 }
@@ -312,7 +316,12 @@ func encodeMoneroAddressBase58Helper(addr []byte) []byte {
 		start = end
 		end = start + BASE58_FULL_BLOCK_SIZE
 	}
-	copyToSlice([]byte(base58.Encode(addr[start:])), res, BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE)
+	dec := []byte(base58.Encode(addr[start:]))
+	if len(dec) < size-BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE {
+		dec = append(bytes.Repeat([]byte{0x31}, (size-BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE)-len(dec)), dec...)
+	}
+
+	copyToSlice(dec, res, BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE)
 
 	return res
 }

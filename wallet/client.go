@@ -194,7 +194,7 @@ func (c *client) do(method string, in, out interface{}) error {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, c.addr, bytes.NewBuffer(payload))
+	req, err := http.NewRequest(http.MethodPost, c.addr+"/json_rpc", bytes.NewBuffer(payload))
 	if err != nil {
 		return err
 	}
