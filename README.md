@@ -50,7 +50,7 @@ func checkerr(err error) {
 func main() {
   // Start a wallet client instance
   client := wallet.New(wallet.Config{
-    Address: "http://127.0.0.1:6061/json_rpc",
+    Address: "http://127.0.0.1:6061",
   })
 
   // check wallet balance
