@@ -22,7 +22,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      MONERO_DAEMON_RPC_ADDRESS: ${{ vars.DAEMON_URL }}
+      MONERO_DAEMON_URL: ${{ vars.DAEMON_URL }}
     strategy:
       fail-fast: false
       matrix:
