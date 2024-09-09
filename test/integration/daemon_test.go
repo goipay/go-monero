@@ -34,7 +34,7 @@ func initSimpleDaemonRpcClient(t *testing.T) daemon.IDaemonRpcClient {
 }
 
 func initDaemonRpcClientWithCreds(t *testing.T, username, password string) daemon.IDaemonRpcClient {
-	u, err := getUrlFromEnv("MONERO_DAEMON_RPC_ADDRESS")
+	u, err := getUrlFromEnv("MONERO_DAEMON_URL")
 	if err != nil {
 		t.Fatal(err)
 	}
