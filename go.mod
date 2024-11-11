@@ -6,7 +6,7 @@ require (
 	filippo.io/edwards25519 v1.1.0
 	github.com/btcsuite/btcutil v1.0.2
 	github.com/gorilla/rpc v1.2.1
-	github.com/icholy/digest v0.1.23
+	github.com/icholy/digest v1.0.0
 	github.com/stretchr/testify v1.9.0
 	github.com/testcontainers/testcontainers-go v0.15.0
 	golang.org/x/crypto v0.27.0
