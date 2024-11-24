@@ -2,6 +2,7 @@ package daemon
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"io"
@@ -122,6 +123,11 @@ func NewDaemonRpcClient(connection *RpcConnection) IDaemonRpcClient {
 			Transport: &digest.Transport{
 				Username: connection.username,
 				Password: connection.password,
+				Transport: &http.Transport{
+					TLSClientConfig: &tls.Config{
+						InsecureSkipVerify: true,
+					},
+				},
 			},
 		},
 	}
