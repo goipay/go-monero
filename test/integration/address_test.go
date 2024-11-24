@@ -28,7 +28,7 @@ func TestGenerateMoneroSubaddress(t *testing.T) {
 
 	ctx := context.Background()
 	containerReq := testcontainers.ContainerRequest{
-		Image:        "chekist32/monero-wallet-rpc:0.18.3.3",
+		Image:        "chekist32/monero-wallet-rpc:0.18.3.4",
 		ExposedPorts: []string{"38083/tcp"},
 		Mounts:       testcontainers.Mounts(testcontainers.BindMount(fmt.Sprintf("%v/resources/wallet", os.Getenv("PWD")), testcontainers.ContainerMountTarget("/monero/wallet"))),
 		Cmd:          []string{"--stagenet", "--daemon-address=http://node.monerodevs.org:38089", "--trusted-daemon", "--rpc-bind-port=38083", "--disable-rpc-login", "--wallet-dir=/monero/wallet"},
