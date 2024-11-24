@@ -265,7 +265,7 @@ func TestDigestAuth(t *testing.T) {
 
 	ctx := context.Background()
 	containerReq := testcontainers.ContainerRequest{
-		Image:        "sethsimmons/simple-monerod:v0.18.3.3",
+		Image:        "sethsimmons/simple-monerod:v0.18.3.4",
 		ExposedPorts: []string{"18081/tcp"},
 		Cmd:          []string{"--rpc-restricted-bind-ip=0.0.0.0", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind", "--rpc-login=user:pass", "--offline"},
 		WaitingFor:   wait.ForLog(`Use "help <command>" to see a command's documentation.`),
