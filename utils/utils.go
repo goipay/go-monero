@@ -91,9 +91,9 @@ func concatPrefixSharedKeyOutIndexHelper(prefix []byte, S *edwards25519.Point, i
 	indexBytes := uintToLittleEndianBytes(index)
 
 	con := make([]byte, len(prefix)+KEY_SIZE+len(indexBytes))
-	copyToSlice(prefix, con, 0)
-	copyToSlice(S.Bytes(), con, len(prefix))
-	copyToSlice(indexBytes, con, KEY_SIZE+len(prefix))
+	copy(con, prefix)
+	copy(con[len(prefix):], S.Bytes())
+	copy(con[KEY_SIZE+len(prefix):], indexBytes)
 
 	return con
 }
@@ -251,7 +251,7 @@ func decodeMoneroAddressBase58Helper(addr string) []byte {
 			dec = dec[len(dec)-BASE58_FULL_BLOCK_SIZE:]
 		}
 
-		copyToSlice(dec, res, BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE)
+		copy(res[BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE:], dec)
 
 		start = end
 		end = start + BASE58_ENCODED_BLOCK_SIZE
@@ -260,7 +260,7 @@ func decodeMoneroAddressBase58Helper(addr string) []byte {
 	if len(dec) > size-BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE {
 		dec = dec[len(dec)-(size-BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE):]
 	}
-	copyToSlice(dec, res, BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE)
+	copy(res[BASE58_FULL_BLOCK_SIZE*start/BASE58_ENCODED_BLOCK_SIZE:], dec)
 
 	return res
 }
@@ -311,7 +311,7 @@ func encodeMoneroAddressBase58Helper(addr []byte) []byte {
 			dec = append(bytes.Repeat([]byte{0x31}, BASE58_ENCODED_BLOCK_SIZE-len(dec)), dec...)
 		}
 
-		copyToSlice(dec, res, BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE)
+		copy(res[BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE:], dec)
 
 		start = end
 		end = start + BASE58_FULL_BLOCK_SIZE
@@ -321,7 +321,7 @@ func encodeMoneroAddressBase58Helper(addr []byte) []byte {
 		dec = append(bytes.Repeat([]byte{0x31}, (size-BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE)-len(dec)), dec...)
 	}
 
-	copyToSlice(dec, res, BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE)
+	copy(res[BASE58_ENCODED_BLOCK_SIZE*start/BASE58_FULL_BLOCK_SIZE:], dec)
 
 	return res
 }
@@ -363,15 +363,15 @@ func GenerateSubaddress(viewKey *PrivateKey, spendKey *PublicKey, major, minor u
 		return nil, err
 	}
 	dec[0] = pref
-	copyToSlice(Si.Bytes(), dec, 1)
-	copyToSlice(Vi.Bytes(), dec, 1+KEY_SIZE)
+	copy(dec[1:], Si.Bytes())
+	copy(dec[1+KEY_SIZE:], Vi.Bytes())
 
 	csum, err := Keccak256Hash(dec[:len(dec)-CHECKSUM_SIZE])
 	if err != nil {
 		return nil, err
 	}
 	csum = csum[:CHECKSUM_SIZE]
-	copyToSlice(csum, dec, 1+2*KEY_SIZE)
+	copy(dec[1+2*KEY_SIZE:], csum)
 
 	return &SubAddress{address: address{addr: dec}}, nil
 }
@@ -471,7 +471,7 @@ func keccak256HashToScalar(hash []byte) (*edwards25519.Scalar, error) {
 	}
 
 	u := make([]byte, 64)
-	copyToSlice(hash, u, 0)
+	copy(u, hash)
 
 	res, err := new(edwards25519.Scalar).SetUniformBytes(u)
 	if err != nil {
@@ -599,19 +599,6 @@ func GetPrefix(nt NetworkType, at AddressType) (byte, error) {
 
 	default:
 		return 255, errors.New("invalid NetworkType: " + string(nt))
-	}
-}
-
-func copyToSlice[T any](src, dst []T, from int) {
-	dstSize := len(dst)
-	srcSize := len(src)
-
-	if from < 0 || from >= dstSize {
-		return
-	}
-
-	for i := 0; from+i < dstSize && i < srcSize; i++ {
-		dst[from+i] = src[i]
 	}
 }
 
