@@ -68,7 +68,7 @@ type IntegratedAddress struct {
 // Returns a PaymentId from the Monero integrated address
 func (a *IntegratedAddress) PaymentId() []byte {
 	s := 2*KEY_SIZE + 1
-	return a.addr[s : s+8]
+	return append([]byte(nil), a.addr[s:s+8]...)
 }
 
 // Creates a Monero integrated/sub-/primary address
